@@ -18,8 +18,8 @@ var startIndex = portions[0].IndexOf("/");
 string substring = portions[0].Substring(startIndex);
 var endIndex = substring.IndexOf(" ");
 string uri = substring.Substring(0, endIndex);
-Console.WriteLine(uri);
-var response = (portions[0].Contains("abcdefg")) ? 
+
+var response = (uri != "/") ? 
     "HTTP/1.1 400 Not Found\r\n\r\n" : 
     "HTTP/1.1 200 OK\r\n\r\n";
 socket.Send(Encoding.UTF8.GetBytes(response));
