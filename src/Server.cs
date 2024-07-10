@@ -23,12 +23,12 @@ else if (path.StartsWith("/echo/")){
     string content = path.Substring(6);
     response = $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {content.Length}\r\n\r\n{content}";
 }
-else if (path.StartsWith("/user-agent"))
-{
-    string content = portions[1].Split("\r\n")[1];
+//else if (path.StartsWith("/user-agent"))
+//{
+//    string content = portions[1].Split("\r\n")[1];
     
-    response = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ";
-}
+//    response = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ";
+//}
 else
 {
     response = "HTTP/1.1 404 Not Found\r\n\r\n";
