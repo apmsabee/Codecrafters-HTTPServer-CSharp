@@ -15,15 +15,17 @@ var reqParts = portions[0].Split(" "); //split request into its portions(method,
 var (method, path, httpVer) = (reqParts[0], reqParts[1], reqParts[2]);
 
 var response = "";
-if (path.Contains("echo")){
-    string content = path.Substring(path.IndexOf('/', path.IndexOf('/') + 1)+1);
-    response = $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {content.Length}\r\n\r\n" + content;
+if(path == "/")
+{
+    response = "HTTP/1.1 200 OK\r\n\r\n";
+}
+if (path.StartsWith("echo")){
+    string content = path.Substring(6);
+    response = $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {content.Length}\r\n\r\n{content}";
 }
 else
 {
-    response = (path != "/") ?
-    "HTTP/1.1 404 Not Found\r\n\r\n" :
-    "HTTP/1.1 200 OK\r\n\r\n";
+    response = "HTTP/1.1 404 Not Found\r\n\r\n";
 }
 
 socket.Send(Encoding.UTF8.GetBytes(response));
