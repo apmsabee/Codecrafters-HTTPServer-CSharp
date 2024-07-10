@@ -10,25 +10,25 @@ var socket = server.AcceptSocket(); // wait for client
 byte[] buffer = new byte[1024];
 int received = socket.Receive(buffer); //receive the request text
 string[] portions = ASCIIEncoding.UTF8.GetString(buffer).Split("\r\n"); //split it into its portions (Request line, headers, body)
-Console.WriteLine(portions[1]);
+
 var reqParts = portions[0].Split(" "); //split request into its portions(method, uri, httptype)
 var (method, path, httpVer) = (reqParts[0], reqParts[1], reqParts[2]);
 
 var response = "";
+var content = "";
 if(path == "/")
 {
     response = "HTTP/1.1 200 OK\r\n\r\n";
 }
 else if (path.StartsWith("/echo/")){
-    string content = path.Substring(6);
+    content = path.Substring(6);
     response = $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {content.Length}\r\n\r\n{content}";
 }
-//else if (path.StartsWith("/user-agent"))
-//{
-//    string content = portions[1].Split("\r\n")[1];
-    
-//    response = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ";
-//}
+else if (path.StartsWith("/user-agent"))
+{
+    content = portions[2];
+    response = $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {content.Length}\r\n\r\n {content}";
+}
 else
 {
     response = "HTTP/1.1 404 Not Found\r\n\r\n";
