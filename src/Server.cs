@@ -14,7 +14,11 @@ var socket = server.AcceptSocket(); // wait for client
 byte[] buffer = new byte[1024];
 int received = socket.Receive(buffer); //receive the request text
 string[] portions = ASCIIEncoding.UTF8.GetString(buffer).Split("\r\n"); //split it into its portions (Request line, headers, body)
-Console.WriteLine(portions[0]);
+var startIndex = portions[0].IndexOf("/");
+string substring = portions[0].Substring(startIndex);
+var endIndex = substring.IndexOf(" ");
+string uri = substring.Substring(0, endIndex);
+Console.WriteLine(uri);
 var response = (portions[0].Contains("abcdefg")) ? 
     "HTTP/1.1 400 Not Found\r\n\r\n" : 
     "HTTP/1.1 200 OK\r\n\r\n";
