@@ -14,13 +14,13 @@ var socket = server.AcceptSocket(); // wait for client
 byte[] buffer = new byte[1024];
 int received = socket.Receive(buffer); //receive the request text
 string[] portions = ASCIIEncoding.UTF8.GetString(buffer).Split("\r\n"); //split it into its portions (Request line, headers, body)
-var startIndex = portions[0].IndexOf("/");
-string substring = portions[0].Substring(startIndex);
-var endIndex = substring.IndexOf(" ");
-string uri = substring.Substring(0, endIndex);
 
-var response = (uri != "/") ? 
+var reqParts = portions[0].Split(" ");
+var (method, path, httpVer) = (reqParts[0], reqParts[1], reqParts[2]);
+
+var response = (path != "/") ? 
     "HTTP/1.1 404 Not Found\r\n\r\n" : 
     "HTTP/1.1 200 OK\r\n\r\n";
 socket.Send(Encoding.UTF8.GetBytes(response));
+
 socket.Close();
