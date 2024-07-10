@@ -1,4 +1,5 @@
 using System.Net;
+using System.Net.Mail;
 using System.Net.Sockets;
 using System.Text;
 
@@ -9,4 +10,12 @@ Console.WriteLine("Logs from your program will appear here!");
 TcpListener server = new TcpListener(IPAddress.Any, 4221);
 server.Start();
 var socket = server.AcceptSocket(); // wait for client
-socket.Send(Encoding.UTF8.GetBytes("HTTP/1.1 200 OK\r\n\r\n"));
+
+byte[] buffer = new byte[1024];
+int received = socket.Receive(buffer); //receive the request text
+string[] portions = ASCIIEncoding.UTF8.GetString(buffer).Split("\r\n"); //split it into its portions (Request line, headers, body)
+
+var response = (portions[0].Contains("abcdefg")) ? 
+    "HTTP/1.1 400 Not Found\r\n\r\n" : 
+    "HTTP/1.1 200 OK\r\n\r\n";
+socket.Send(Encoding.UTF8.GetBytes(response));
