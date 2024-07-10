@@ -19,7 +19,7 @@ if(path == "/")
 {
     response = "HTTP/1.1 200 OK\r\n\r\n";
 }
-if (path.StartsWith("echo")){
+else if (path.StartsWith("echo")){
     string content = path.Substring(6);
     response = $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {content.Length}\r\n\r\n{content}";
 }
