@@ -17,7 +17,7 @@ string[] portions = ASCIIEncoding.UTF8.GetString(buffer).Split("\r\n"); //split 
 
 var reqParts = portions[0].Split(" ");
 var (method, path, httpVer) = (reqParts[0], reqParts[1], reqParts[2]);
-
+Console.WriteLine(path);
 var response = (path != "/") ? 
     "HTTP/1.1 404 Not Found\r\n\r\n" : 
     "HTTP/1.1 200 OK\r\n\r\n";
