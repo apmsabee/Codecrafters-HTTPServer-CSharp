@@ -27,7 +27,7 @@ else if (path.StartsWith("/echo/")){
 else if (path.StartsWith("/user-agent"))
 {
     content = portions[2].Split(" ")[1];
-    response = $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {content.Length}\r\n\r\n {content}";
+    response = $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {content.Length}\r\n\r\n{content}";
     Console.WriteLine(response);
 }
 else
