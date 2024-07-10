@@ -16,7 +16,7 @@ var (method, path, httpVer) = (reqParts[0], reqParts[1], reqParts[2]);
 
 var response = "";
 if (path.Contains("echo")){
-    string content = path.Substring(path.IndexOf('/', path.IndexOf('/') + 1));
+    string content = path.Substring(path.IndexOf('/', path.IndexOf('/') + 1)+1);
     response = $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {content.Length}\r\n\r\n" + content;
 }
 else
