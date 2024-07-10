@@ -10,7 +10,7 @@ var socket = server.AcceptSocket(); // wait for client
 byte[] buffer = new byte[1024];
 int received = socket.Receive(buffer); //receive the request text
 string[] portions = ASCIIEncoding.UTF8.GetString(buffer).Split("\r\n"); //split it into its portions (Request line, headers, body)
-
+Console.WriteLine(portions);
 var reqParts = portions[0].Split(" "); //split request into its portions(method, uri, httptype)
 var (method, path, httpVer) = (reqParts[0], reqParts[1], reqParts[2]);
 
@@ -26,7 +26,7 @@ else if (path.StartsWith("/echo/")){
 else if (path.StartsWith("/user-agent"))
 {
     string content = portions[1].Split("\r\n")[1];
-    Console.WriteLine(content);
+    
     response = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ";
 }
 else
