@@ -20,7 +20,7 @@ var endIndex = substring.IndexOf(" ");
 string uri = substring.Substring(0, endIndex);
 
 var response = (uri != "/") ? 
-    "HTTP/1.1 400 Not Found\r\n\r\n" : 
+    "HTTP/1.1 404 Not Found\r\n\r\n" : 
     "HTTP/1.1 200 OK\r\n\r\n";
 socket.Send(Encoding.UTF8.GetBytes(response));
 socket.Close();
