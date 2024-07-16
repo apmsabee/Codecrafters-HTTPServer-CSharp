@@ -46,11 +46,24 @@ internal class Program
                 else if (path.StartsWith("/echo/"))
                 {
                     content = path.Substring(6);
-                    var compressedContent = Zip(content);
 
-                    response = (validEncoding) ?
-                        $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Encoding: gzip\r\nContent-Length: {compressedContent.Length}\r\n\r\n{compressedContent}"
-                        : $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {content.Length}\r\n\r\n{content}";
+                    if (validEncoding)
+                    {
+                        var bytes = Encoding.UTF8.GetBytes(content);
+                        using var memoryStream = new MemoryStream();
+                        using var gzipStream =
+                            new GZipStream(memoryStream, CompressionMode.Compress, true);
+                        gzipStream.Write(bytes, 0, bytes.Length);
+                        gzipStream.Flush();
+                        gzipStream.Close();
+                        var compressed = memoryStream.ToArray();
+                        var compressedResponse = $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Encoding: gzip\r\nContent-Length: {compressed.Length}\r\n\r\n";
+                        socket.Send([..Encoding.UTF8.GetBytes(compressedResponse), ..compressed]);
+                    }
+                    else
+                    {
+                        response = $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {content.Length}\r\n\r\n{content}";
+                    }
                 }
                 else if (path.StartsWith("/user-agent"))
                 {
@@ -98,7 +111,10 @@ internal class Program
                     response = "HTTP/1.1 404 Not Found\r\n\r\n";
                 }
                 //Console.WriteLine("Response: " + response);
-                socket.Send(Encoding.UTF8.GetBytes(response));
+                if (!validEncoding)
+                {
+                    socket.Send(Encoding.UTF8.GetBytes(response));
+                }
             }
             catch(Exception e) 
             {
@@ -110,18 +126,6 @@ internal class Program
             {
                 socket.Close();
             }
-        }
-        static byte[] Zip(string str)
-        {
-            var bytes = Encoding.UTF8.GetBytes(str);
-            using var memoryStream = new MemoryStream();
-            using var gzipStream = new GZipStream(memoryStream, CompressionMode.Compress, true);
-            gzipStream.Write(bytes, 0, bytes.Length);
-            gzipStream.Flush();
-            gzipStream.Close();
-            var compressed = memoryStream.ToArray();
-            var compressedResponse = $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Encoding: gzip\r\nContent-Length: {compressed.Length}\r\n\r\n";
-            return [.. Encoding.UTF8.GetBytes(compressedResponse), .. compressed];
         }
     }
 }
