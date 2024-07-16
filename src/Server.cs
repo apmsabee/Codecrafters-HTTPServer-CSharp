@@ -62,7 +62,7 @@ internal class Program
                                 Console.WriteLine(portions[2]);
                                 int numBytes = Int32.Parse(portions[2].Split(' ')[1]);
                                 Console.WriteLine(numBytes);
-                                output.BaseStream.Write(dataAsBytes);
+                                output.BaseStream.Write(dataAsBytes, 0, numBytes);
                                 response = "HTTP/1.1 201 Created\r\n\r\n";
                             }
                         }
