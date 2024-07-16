@@ -50,11 +50,11 @@ internal class Program
                     Console.WriteLine(response);
                 }
                 else if (path.StartsWith("/files/")){
-                    if (File.Exists(path.Substring(7)))
+                    if (File.Exists("/tmp/data/" + path.Substring(7)))
                     {
                         long length = new System.IO.FileInfo(path.Substring(7)).Length;
                         var f = File.ReadAllBytes(path.Substring(7));
-                        response = $"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {length}\r\n\r\n{content}";
+                        response = $"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {length}\r\n\r\n{f}";
                     }
                     else
                     {
