@@ -50,7 +50,8 @@ internal class Program
                     Console.WriteLine(response);
                 }
                 else if (path.StartsWith("/files/")){
-                    if (File.Exists("/tmp/data/" + path.Substring(7)))
+                    string dir = Path.Combine(args[2], path.Substring(7));
+                    if (File.Exists(dir))
                     {
                         long length = new System.IO.FileInfo(path.Substring(7)).Length;
                         var f = File.ReadAllBytes(path.Substring(7));
