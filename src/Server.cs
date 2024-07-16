@@ -32,7 +32,7 @@ internal class Program
                 var response = "";
                 var content = "";
 
-                Console.WriteLine("Path: " + path);
+                Console.WriteLine("Path Substring: " + path.Substring(7));
                 if (path == "/")
                 {
                     Console.WriteLine("Empty path return");
@@ -52,8 +52,8 @@ internal class Program
                     Console.WriteLine(response);
                 }
                 else if (path.StartsWith("/files/")){
+                    Console.WriteLine("In files branch");
                     string dir = Path.Combine(args[2], path.Substring(7));
-                    Console.WriteLine(path.Substring(7));
                     Console.WriteLine(File.Exists(dir));
                     if (File.Exists(dir))
                     {
