@@ -22,7 +22,7 @@ internal class Program
         {
             try
             {
-                byte[] buffer = new byte[1024];
+                byte[] buffer = new byte[4096];
                 int received = socket.Receive(buffer); //receive the request text
 
                 string[] portions = ASCIIEncoding.UTF8.GetString(buffer).Split("\r\n"); //split it into its portions (Request line, headers, body)
