@@ -47,7 +47,7 @@ internal class Program
                 {
                     content = path.Substring(6);
                     var compressedContent = Zip(content);
-
+                    Console.WriteLine(Encoding.UTF8.GetString(compressedContent));
                     response = (validEncoding) ?
                         $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Encoding: gzip\r\nContent-Length: {compressedContent.Length}\r\n\r\n{Encoding.UTF8.GetString(compressedContent)}"
                         : $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {content.Length}\r\n\r\n{content}";
