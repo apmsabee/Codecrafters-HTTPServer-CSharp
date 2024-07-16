@@ -48,6 +48,7 @@ internal class Program
                     content = path.Substring(6);
                     var compressedContent = Zip(content);
                     Console.WriteLine(Encoding.UTF8.GetString(compressedContent));
+                    Console.WriteLine(Convert.ToBase64String(compressedContent));
                     response = (validEncoding) ?
                         $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Encoding: gzip\r\nContent-Length: {compressedContent.Length}\r\n\r\n{Encoding.UTF8.GetString(compressedContent)}"
                         : $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {content.Length}\r\n\r\n{content}";
@@ -56,7 +57,6 @@ internal class Program
                 {
                     content = portions[2].Split(" ")[1];
                     response = $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {content.Length}\r\n\r\n{content}";
-                    Console.WriteLine(response);
                 }
                 else if (path.StartsWith("/files/")){
                     if (method == "POST")
@@ -74,7 +74,6 @@ internal class Program
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine("In file post catch statement");
                             Console.WriteLine(ex.ToString());
                             response = "HTTP/1.1 500 Internal Server Error\r\n\r\n";
                         }
@@ -89,7 +88,6 @@ internal class Program
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine("In file get catch statement");
                             Console.WriteLine(ex.ToString());
                             response = "HTTP/1.1 404 Not Found\r\n\r\n";
                         }
@@ -100,7 +98,7 @@ internal class Program
                 {
                     response = "HTTP/1.1 404 Not Found\r\n\r\n";
                 }
-                Console.WriteLine("Response: " + response);
+                //Console.WriteLine("Response: " + response);
                 socket.Send(Encoding.UTF8.GetBytes(response));
             }
             catch(Exception e) 
