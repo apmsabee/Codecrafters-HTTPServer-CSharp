@@ -46,15 +46,10 @@ internal class Program
                 else if (path.StartsWith("/echo/"))
                 {
                     content = path.Substring(6);
-                    Console.WriteLine(content);
                     var compressedContent = Zip(content);
-                    var str = "";
-                    foreach(byte b in compressedContent)
-                    {
 
-                    }
                     response = (validEncoding) ?
-                        $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Encoding: gzip\r\nContent-Length: {compressedContent.Length}\r\n\r\n{Encoding.UTF8.GetString(compressedContent)}"
+                        $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Encoding: gzip\r\nContent-Length: {compressedContent.Length}\r\n\r\n{compressedContent}"
                         : $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {content.Length}\r\n\r\n{content}";
                 }
                 else if (path.StartsWith("/user-agent"))
@@ -123,17 +118,16 @@ internal class Program
         {
             var bytes = Encoding.UTF8.GetBytes(str);
 
-            using (var msi = new MemoryStream(bytes))
-            using (var mso = new MemoryStream())
-            {
-                using (var gs = new GZipStream(mso, CompressionMode.Compress))
-                {
-                    msi.CopyTo(gs);
-                    //CopyTo(msi, gs);
-                }
+            using var mso = new MemoryStream();
 
-                return mso.ToArray();
-            }
+            using var gs = new GZipStream(mso, CompressionMode.Compress, true);
+            gs.Write(bytes, 0, bytes.Length);
+            gs.Flush();
+            gs.Close();
+            return  mso.ToArray();
+
+
+               
         }
     }
 }
