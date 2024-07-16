@@ -5,11 +5,11 @@ using System.Text;
 
 internal class Program
 {
-    private static async void Main(string[] args)
+    private static void Main(string[] args)
     {
         TcpListener server = new TcpListener(IPAddress.Any, 4221);
         server.Start();
-        
+
         while (true)
         {
             var socket = server.AcceptSocket(); // wait for client
