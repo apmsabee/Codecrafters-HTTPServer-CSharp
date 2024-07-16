@@ -4,6 +4,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.IO;
 using System.Collections;
+using System.IO.Compression;
 
 internal class Program
 {
@@ -29,7 +30,7 @@ internal class Program
                 
                 bool encoding = portions[2].StartsWith("Accept-Encoding");
                 bool validEncoding = (encoding) ? 
-                    portions[2].Replace(",", "").Split(" ").Contains("gzip")
+                    portions[2].Split(", ").Contains("gzip")
                     : false;
 
                 var reqParts = portions[0].Split(" ");
@@ -47,8 +48,9 @@ internal class Program
                 {
                     Console.WriteLine("Echo path return");
                     content = path.Substring(6);
+                    var compressedContent = Convert.ToBase64String(Zip(content));
                     response = (validEncoding) ?
-                        $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Encoding: gzip\r\nContent-Length: {content.Length}\r\n\r\n{content}"
+                        $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Encoding: gzip\r\nContent-Length: {compressedContent.Length}\r\n\r\n{compressedContent}"
                         : $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {content.Length}\r\n\r\n{content}";
                 }
                 else if (path.StartsWith("/user-agent"))
@@ -113,6 +115,22 @@ internal class Program
             finally
             {
                 socket.Close();
+            }
+        }
+        static byte[] Zip(string str)
+        {
+            var bytes = Encoding.UTF8.GetBytes(str);
+
+            using (var msi = new MemoryStream(bytes))
+            using (var mso = new MemoryStream())
+            {
+                using (var gs = new GZipStream(mso, CompressionMode.Compress))
+                {
+                    msi.CopyTo(gs);
+                    //CopyTo(msi, gs);
+                }
+
+                return mso.ToArray();
             }
         }
     }
