@@ -55,13 +55,13 @@ internal class Program
                     Console.WriteLine(args[0]);
                     string dir = Path.Combine(args[1], path.Substring(7));
                     Console.WriteLine(File.Exists(dir));
-                    if (File.Exists(dir))
+                    try 
                     {
-                        //long length = new System.IO.FileInfo(path.Substring(7)).Length;
-                        //var f = File.ReadAllBytes(path.Substring(7));
-                        //response = $"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {length}\r\n\r\n{f}";
+                        long length = new System.IO.FileInfo(path.Substring(7)).Length;
+                        var f = File.ReadAllBytes(path.Substring(7));
+                        response = $"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {length}\r\n\r\n{f}";
                     }
-                    else
+                    catch
                     {
                         response = "HTTP/1.1 404 Not Found\r\n\r\n";
                     }
