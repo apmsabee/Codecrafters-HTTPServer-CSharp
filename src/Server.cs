@@ -52,6 +52,8 @@ internal class Program
                 }
                 else if (path.StartsWith("/files/")){
                     string dir = Path.Combine(args[2], path.Substring(7));
+                    Console.WriteLine(path.Substring(7));
+                    Console.WriteLine(File.Exists(dir));
                     if (File.Exists(dir))
                     {
                         long length = new System.IO.FileInfo(path.Substring(7)).Length;
