@@ -56,10 +56,10 @@ internal class Program
                     Console.WriteLine(File.Exists(dir));
                     if (File.Exists(dir))
                     {
-                        long length = new System.IO.FileInfo(path.Substring(7)).Length;
-                        var f = File.ReadAllBytes(path.Substring(7));
-                        response = $"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {length}\r\n\r\n{f}";
-                        socket.Send(Encoding.UTF8.GetBytes(response));
+                        //long length = new System.IO.FileInfo(path.Substring(7)).Length;
+                        //var f = File.ReadAllBytes(path.Substring(7));
+                        //response = $"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {length}\r\n\r\n{f}";
+                        //socket.Send(Encoding.UTF8.GetBytes(response));
                     }
                     else
                     {
