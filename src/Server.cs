@@ -50,8 +50,8 @@ internal class Program
                     Console.WriteLine("Echo path return");
                     content = path.Substring(6);
                     response = (validEncoding) ?
-                        $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {content.Length}\r\n\r\n{content}"
-                        : $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Encoding: gzip\r\nContent-Length: {content.Length}\r\n\r\n{content}";
+                        $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Encoding: gzip\r\nContent-Length: {content.Length}\r\n\r\n{content}"
+                        : $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {content.Length}\r\n\r\n{content}";
                 }
                 else if (path.StartsWith("/user-agent"))
                 {
