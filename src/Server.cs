@@ -60,10 +60,9 @@ internal class Program
                             {
                                 byte[] dataAsBytes = Encoding.ASCII.GetBytes(portions[5]);
                                 Console.WriteLine(portions[2]);
-                                Console.WriteLine(portions[3]);
-                                Console.WriteLine(portions[4]);
-                                //int numBytes = portions[2]
-                                output.Write(dataAsBytes);
+                                int numBytes = Int32.Parse(portions[2].Split(' ')[1]);
+                                Console.WriteLine(numBytes);
+                                output.BaseStream.Write(dataAsBytes);
                                 response = "HTTP/1.1 201 Created\r\n\r\n";
                             }
                         }
