@@ -26,14 +26,10 @@ internal class Program
                 int received = socket.Receive(buffer); //receive the request text
 
                 string[] portions = ASCIIEncoding.UTF8.GetString(buffer).Split("\r\n"); //split it into its portions (Request line, headers, body)
-                string[] test = portions[2].Split(" ");
-                foreach (string line in test)
-                {
-                    Console.WriteLine(line);
-                }
+                
                 bool encoding = portions[2].StartsWith("Accept-Encoding");
                 bool validEncoding = (encoding) ? 
-                    portions[2].Split(" ").Contains("gzip")
+                    portions[2].Replace(",", "").Split(" ").Contains("gzip")
                     : false;
 
                 var reqParts = portions[0].Split(" ");
