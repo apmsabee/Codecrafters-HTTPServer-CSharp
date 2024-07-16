@@ -57,7 +57,7 @@ internal class Program
                     try 
                     {
                         long length = new System.IO.FileInfo(Path.Combine(args[1], path.Substring(7))).Length;
-                        var f = System.Text.Encoding.Default.GetString(File.ReadAllBytes(Path.Combine(args[1], path.Substring(7))));
+                        var f = File.ReadAllText(Path.Combine(args[1], path.Substring(7)));
                         response = $"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {length}\r\n\r\n{f}";
                     }
                     catch(Exception ex)
