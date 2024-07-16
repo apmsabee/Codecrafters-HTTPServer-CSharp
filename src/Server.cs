@@ -26,6 +26,7 @@ internal class Program
                 int received = socket.Receive(buffer); //receive the request text
 
                 string[] portions = ASCIIEncoding.UTF8.GetString(buffer).Split("\r\n"); //split it into its portions (Request line, headers, body)
+                Console.WriteLine(portions.ToString());
                 var reqParts = portions[0].Split(" "); //split request into its portions(method, uri, httptype)
                 var (method, path, httpVer) = (reqParts[0], reqParts[1], reqParts[2]);
 
@@ -59,9 +60,7 @@ internal class Program
                             using (StreamWriter output = new StreamWriter(newFilePath))
                             {
                                 byte[] dataAsBytes = Encoding.ASCII.GetBytes(portions[5]);
-                                Console.WriteLine(portions[2]);
                                 int numBytes = Int32.Parse(portions[2].Split(' ')[1]);
-                                Console.WriteLine(numBytes);
                                 output.BaseStream.Write(dataAsBytes, 0, numBytes);
                                 response = "HTTP/1.1 201 Created\r\n\r\n";
                             }
