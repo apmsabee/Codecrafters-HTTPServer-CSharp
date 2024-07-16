@@ -56,8 +56,8 @@ internal class Program
                     Console.WriteLine(File.Exists(dir));
                     try 
                     {
-                        long length = new System.IO.FileInfo(path.Substring(7)).Length;
-                        var f = File.ReadAllBytes(path.Substring(7));
+                        long length = new System.IO.FileInfo(Path.Combine(args[1], path.Substring(7))).Length;
+                        var f = File.ReadAllBytes(Path.Combine(args[1], path.Substring(7)));
                         response = $"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {length}\r\n\r\n{f}";
                     }
                     catch(Exception ex)
