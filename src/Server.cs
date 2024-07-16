@@ -26,9 +26,9 @@ internal class Program
                 int received = socket.Receive(buffer); //receive the request text
 
                 string[] portions = ASCIIEncoding.UTF8.GetString(buffer).Split("\r\n"); //split it into its portions (Request line, headers, body)
+                Console.WriteLine(portions[2]); 
                 Console.WriteLine(portions[3]);
                 Console.WriteLine(portions[4]);
-                Console.WriteLine(portions[5]);
                 var reqParts = portions[0].Split(" ");
                 var (method, path, httpVer) = (reqParts[0], reqParts[1], reqParts[2]);
 
