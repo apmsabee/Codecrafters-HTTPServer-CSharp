@@ -55,14 +55,10 @@ internal class Program
                     {
                         try
                         {
-                            Console.WriteLine(portions[2]);
-                            Console.WriteLine(portions[3]);
-                            Console.WriteLine(portions[4]);
-                            Console.WriteLine(portions[5]);
                             string newFilePath = Path.Combine(args[1], path.Substring(7));
                             using (StreamWriter output = new StreamWriter(newFilePath))
                             {
-                                output.WriteLine(portions[3]);
+                                output.WriteLine(portions[5]);
                                 response = "HTTP/1.1 201 Created\r\n\r\n";
                             }
                         }
