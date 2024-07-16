@@ -49,7 +49,7 @@ internal class Program
                     var compressedContent = Zip(content);
 
                     response = (validEncoding) ?
-                        $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Encoding: gzip\r\nContent-Length: {compressedContent.Length}\r\n\r\n{compressedContent}"
+                        $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Encoding: gzip\r\nContent-Length: {compressedContent.Length}\r\n\r\n{Encoding.UTF8.GetString(compressedContent)}"
                         : $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {content.Length}\r\n\r\n{content}";
                 }
                 else if (path.StartsWith("/user-agent"))
