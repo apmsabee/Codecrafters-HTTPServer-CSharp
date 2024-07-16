@@ -41,21 +41,18 @@ internal class Program
 
                 if (path == "/")
                 {
-                    Console.WriteLine("Empty path return");
                     response = "HTTP/1.1 200 OK\r\n\r\n";
                 }
                 else if (path.StartsWith("/echo/"))
                 {
-                    Console.WriteLine("Echo path return");
                     content = path.Substring(6);
-                    var compressedContent = Convert.ToBase64String(Zip(content));
+                    var compressedContent = Zip(content);
                     response = (validEncoding) ?
                         $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Encoding: gzip\r\nContent-Length: {compressedContent.Length}\r\n\r\n{compressedContent}"
                         : $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {content.Length}\r\n\r\n{content}";
                 }
                 else if (path.StartsWith("/user-agent"))
                 {
-                    Console.WriteLine("User-agent path return");
                     content = portions[2].Split(" ")[1];
                     response = $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {content.Length}\r\n\r\n{content}";
                     Console.WriteLine(response);
@@ -100,7 +97,6 @@ internal class Program
                 }
                 else
                 {
-                    Console.WriteLine("404 path return");
                     response = "HTTP/1.1 404 Not Found\r\n\r\n";
                 }
                 Console.WriteLine("Response: " + response);
