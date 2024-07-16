@@ -52,20 +52,42 @@ internal class Program
                 }
                 else if (path.StartsWith("/files/")){
                     Console.WriteLine("In files branch");
-                    string dir = Path.Combine(args[1], path.Substring(7));
-                    Console.WriteLine(File.Exists(dir));
-                    try 
+                    if (method == "POST")
                     {
-                        long length = new System.IO.FileInfo(Path.Combine(args[1], path.Substring(7))).Length;
-                        var f = File.ReadAllText(Path.Combine(args[1], path.Substring(7)));
-                        response = $"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {length}\r\n\r\n{f}";
+                        try
+                        {
+                            Console.WriteLine(portions[2]);
+                            Console.WriteLine(portions[3]);
+                            string newFilePath = Path.Combine(args[1], path.Substring(7));
+                            using (StreamWriter output = new StreamWriter(newFilePath))
+                            {
+                                output.WriteLine(portions[3]);
+                                response = "HTTP/1.1 201 Created\r\n\r\n";
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("In file post catch statement");
+                            Console.WriteLine(ex.ToString());
+                            response = "HTTP/1.1 500 Internal Server Error\r\n\r\n";
+                        }
                     }
-                    catch(Exception ex)
+                    else
                     {
-                        Console.WriteLine("In file catch statement");
-                        Console.WriteLine(ex.ToString());
-                        response = "HTTP/1.1 404 Not Found\r\n\r\n";
+                        try
+                        {
+                            long length = new System.IO.FileInfo(Path.Combine(args[1], path.Substring(7))).Length;
+                            var f = File.ReadAllText(Path.Combine(args[1], path.Substring(7)));
+                            response = $"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {length}\r\n\r\n{f}";
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("In file get catch statement");
+                            Console.WriteLine(ex.ToString());
+                            response = "HTTP/1.1 404 Not Found\r\n\r\n";
+                        }
                     }
+                    
                 }
                 else
                 {
