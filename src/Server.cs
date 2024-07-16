@@ -50,7 +50,7 @@ internal class Program
                     Console.WriteLine(Encoding.UTF8.GetString(compressedContent));
                     Console.WriteLine(Convert.ToBase64String(compressedContent));
                     response = (validEncoding) ?
-                        $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Encoding: gzip\r\nContent-Length: {compressedContent.Length}\r\n\r\n{Encoding.UTF8.GetString(compressedContent)}"
+                        $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Encoding: gzip\r\nContent-Length: {compressedContent.Length}\r\n\r\n{Convert.ToBase64String(compressedContent)}"
                         : $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {content.Length}\r\n\r\n{content}";
                 }
                 else if (path.StartsWith("/user-agent"))
