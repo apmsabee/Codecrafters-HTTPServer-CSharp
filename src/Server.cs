@@ -30,7 +30,7 @@ internal class Program
                 
                 bool encoding = portions[2].StartsWith("Accept-Encoding");
                 bool validEncoding = (encoding) ? 
-                    portions[2].Split(", ").Contains("gzip")
+                    portions[2].Contains("gzip")
                     : false;
 
                 var reqParts = portions[0].Split(" ");
