@@ -2,6 +2,8 @@ using System.Net;
 using System.Net.Mail;
 using System.Net.Sockets;
 using System.Text;
+using System.IO;
+using System.Collections;
 
 internal class Program
 {
@@ -46,6 +48,18 @@ internal class Program
                     content = portions[2].Split(" ")[1];
                     response = $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {content.Length}\r\n\r\n{content}";
                     Console.WriteLine(response);
+                }
+                else if (path.StartsWith("/files/")){
+                    if (File.Exists(path.Substring(7)))
+                    {
+                        long length = new System.IO.FileInfo(path.Substring(7)).Length;
+                        var f = File.ReadAllBytes(path.Substring(7));
+                        response = $"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {length}\r\n\r\n{content}";
+                    }
+                    else
+                    {
+                        response = "HTTP/1.1 404 Not Found\r\n\r\n";
+                    }
                 }
                 else
                 {
