@@ -31,7 +31,8 @@ internal class Program
                 bool validEncoding = (encoding) ? 
                     portions[2].Split(" ")[1].Equals("gzip")
                     : false;
-                
+                Console.WriteLine(validEncoding);
+                Console.WriteLine(portions[2].Split(" ")[1]);
 
                 var reqParts = portions[0].Split(" ");
                 var (method, path, httpVer) = (reqParts[0], reqParts[1], reqParts[2]);
