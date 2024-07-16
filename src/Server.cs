@@ -53,7 +53,8 @@ internal class Program
                 }
                 else if (path.StartsWith("/files/")){
                     Console.WriteLine("In files branch");
-                    string dir = Path.Combine(args[2], path.Substring(7));
+                    Console.WriteLine(args);
+                    string dir = Path.Combine(args[0], path.Substring(7));
                     Console.WriteLine(File.Exists(dir));
                     if (File.Exists(dir))
                     {
