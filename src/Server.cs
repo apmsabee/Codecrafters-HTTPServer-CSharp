@@ -52,7 +52,6 @@ internal class Program
                 }
                 else if (path.StartsWith("/files/")){
                     Console.WriteLine("In files branch");
-                    Console.WriteLine(args[0]);
                     string dir = Path.Combine(args[1], path.Substring(7));
                     Console.WriteLine(File.Exists(dir));
                     try 
@@ -61,8 +60,10 @@ internal class Program
                         var f = File.ReadAllBytes(path.Substring(7));
                         response = $"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {length}\r\n\r\n{f}";
                     }
-                    catch
+                    catch(Exception ex)
                     {
+                        Console.WriteLine("In file catch statement");
+                        Console.WriteLine(ex.ToString());
                         response = "HTTP/1.1 404 Not Found\r\n\r\n";
                     }
                 }
@@ -76,7 +77,7 @@ internal class Program
             }
             catch(Exception e) 
             {
-                Console.WriteLine("In catch statement");
+                Console.WriteLine("In overall catch statement");
                 Console.WriteLine(e.ToString());
                 socket.Send(Encoding.UTF8.GetBytes("HTTP/1.1 500 Internal Server Error\r\n\r\n"));
             }
