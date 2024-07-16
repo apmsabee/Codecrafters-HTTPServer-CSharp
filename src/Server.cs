@@ -58,7 +58,12 @@ internal class Program
                             string newFilePath = Path.Combine(args[1], path.Substring(7));
                             using (StreamWriter output = new StreamWriter(newFilePath))
                             {
-                                output.WriteLine(portions[5]);
+                                byte[] dataAsBytes = Encoding.ASCII.GetBytes(portions[5]);
+                                Console.WriteLine(portions[2]);
+                                Console.WriteLine(portions[3]);
+                                Console.WriteLine(portions[4]);
+                                //int numBytes = portions[2]
+                                output.Write(dataAsBytes);
                                 response = "HTTP/1.1 201 Created\r\n\r\n";
                             }
                         }
