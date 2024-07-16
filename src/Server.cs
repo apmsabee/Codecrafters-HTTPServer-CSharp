@@ -46,6 +46,7 @@ internal class Program
                 else if (path.StartsWith("/echo/"))
                 {
                     content = path.Substring(6);
+                    Console.WriteLine(content);
                     var compressedContent = Zip(content);
                     var str = "";
                     foreach(byte b in compressedContent)
