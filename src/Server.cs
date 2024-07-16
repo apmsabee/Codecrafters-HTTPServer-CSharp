@@ -32,6 +32,7 @@ internal class Program
                 var response = "";
                 var content = "";
 
+                Console.WriteLine("Path: " + path);
                 if (path == "/")
                 {
                     Console.WriteLine("Empty path return");
