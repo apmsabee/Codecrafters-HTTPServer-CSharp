@@ -31,6 +31,7 @@ internal class Program
 
                 var response = "";
                 var content = "";
+
                 if (path == "/")
                 {
                     Console.WriteLine("Empty path return");
@@ -70,9 +71,10 @@ internal class Program
                 Console.WriteLine("Response: " + response);
                 socket.Send(Encoding.UTF8.GetBytes(response));
             }
-            catch
+            catch(Exception e) 
             {
                 Console.WriteLine("In catch statement");
+                Console.WriteLine(e.ToString());
                 socket.Send(Encoding.UTF8.GetBytes("HTTP/1.1 500 Internal Server Error\r\n\r\n"));
             }
             finally
