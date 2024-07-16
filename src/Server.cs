@@ -51,13 +51,14 @@ internal class Program
                     Console.WriteLine(response);
                 }
                 else if (path.StartsWith("/files/")){
-                    Console.WriteLine("In files branch");
                     if (method == "POST")
                     {
                         try
                         {
                             Console.WriteLine(portions[2]);
                             Console.WriteLine(portions[3]);
+                            Console.WriteLine(portions[4]);
+                            Console.WriteLine(portions[5]);
                             string newFilePath = Path.Combine(args[1], path.Substring(7));
                             using (StreamWriter output = new StreamWriter(newFilePath))
                             {
